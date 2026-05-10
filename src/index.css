@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  ::selection {
+    background-color: rgba(56, 189, 248, 0.25);
+    color: #e2e8f0;
+  }
+}
+
+@layer components {
+  .cta-button {
+    @apply inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-lg
+           bg-sky-500 text-white
+           hover:bg-sky-400 hover:shadow-lg hover:shadow-sky-500/20
+           active:bg-sky-600
+           transition-all duration-200 ease-out
+           focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-slate-950;
+  }
+
+  .section-container {
+    @apply max-w-6xl mx-auto px-6 lg:px-8;
+  }
+
+  .card {
+    @apply bg-slate-900/60 border border-slate-800 rounded-2xl p-8
+           hover:border-slate-700 transition-colors duration-300;
+  }
+
+  .step-card {
+    @apply bg-slate-900/40 border border-slate-800/60 rounded-2xl p-8
+           hover:border-slate-700/80 transition-colors duration-300;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes subtle-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.7s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+
+.glow-orb {
+  animation: subtle-glow 6s ease-in-out infinite;
+}
