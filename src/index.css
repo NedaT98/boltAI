@@ -146,6 +146,73 @@ input[type='range']::-moz-range-thumb {
   @apply w-4 h-4 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)] border-2 border-white transition-transform duration-200 hover:scale-125;
 }
 
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.sticky-header {
+  @apply fixed top-0 left-0 right-0 z-[60] bg-slate-950/90 backdrop-blur-md border-b border-white/[0.05] 
+         transition-all duration-500 transform;
+}
+
+.scroll-progress-bar {
+  @apply fixed top-0 left-0 h-0.5 bg-emerald-500 z-[70] transition-all duration-150 ease-out;
+}
+
+.sector-tag {
+  @apply px-4 py-2 rounded-full border border-slate-800 bg-slate-900/50 text-slate-400 text-sm font-medium
+         transition-all duration-300 hover:border-slate-600 hover:text-white hover:bg-slate-800 cursor-default
+         flex items-center gap-2;
+}
+
+.signature {
+  font-family: 'Dancing Script', cursive;
+}
+
+.modal-overlay {
+  @apply fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-6 animate-fade-in;
+}
+
+.modal-content {
+  @apply bg-slate-900 border border-slate-800 rounded-3xl p-8 max-w-lg w-full shadow-2xl animate-fade-in-up relative overflow-hidden;
+}
+
+.diagnostic-step {
+  @apply bg-slate-900/50 border border-white/[0.05] rounded-2xl p-6 transition-all duration-300 hover:border-sky-500/30 cursor-pointer;
+}
+
+.diagnostic-step.active {
+  @apply border-sky-500 bg-sky-500/5 shadow-lg shadow-sky-500/10;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  animation: draw 2s ease-out forwards;
+}
+
+@keyframes packet-flow {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+.data-packet {
+  @apply w-1.5 h-1.5 bg-sky-400 rounded-full blur-[1px] absolute;
+  offset-path: var(--path);
+  animation: packet-flow 3s linear infinite;
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;

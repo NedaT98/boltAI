@@ -1,27 +1,520 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { 
   Zap, Search, BarChart3, ArrowRight, CheckCircle2, 
   MessageSquare, Lightbulb, Users, Clock,
-  Mail, FileSpreadsheet, AlertCircle, BrainCircuit, Rocket
+  Mail, FileSpreadsheet, AlertCircle, BrainCircuit, Rocket,
+  Building, Stethoscope, Truck, Factory, Briefcase,
+  Quote, X, Cpu, Layers, Database, ChevronLeft, ChevronRight,
+  Stethoscope as HealthIcon
 } from 'lucide-react';
 
 function App() {
+  const [showSticky, setShowSticky] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowSticky(window.scrollY > 600);
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      setScrollProgress(scrolled);
+    };
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY < 10 && !localStorage.getItem('modal_dismissed')) {
+        setShowModal(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    document.addEventListener('mouseleave', handleMouseLeave);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
+  const closeModal = () => {
+    setShowModal(false);
+    localStorage.setItem('modal_dismissed', 'true');
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200">
+      <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />
       <Nav />
+      <StickyHeader show={showSticky} />
+      {showModal && <ExitIntentModal onClose={closeModal} />}
       <Hero />
+      <SectorCloud />
       <div className="gradient-divider" />
       <AuditOffer />
       <div className="gradient-divider" />
+      <SystemSchematic />
+      <div className="gradient-divider" />
       <WorkflowComparison />
+      <div className="gradient-divider" />
+      <ImpactSnapshots />
       <div className="gradient-divider" />
       <Process />
       <div className="gradient-divider" />
       <AutomationCalculator />
       <div className="gradient-divider" />
-      <FinalCTA />
+      <FoundersNote />
+      <div className="gradient-divider" />
+      <DiagnosticForm />
       <Footer />
     </div>
+  );
+}
+
+function SystemSchematic() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const path1 = "M250 200 H450";
+  const path2 = "M550 200 H750";
+
+  return (
+    <section ref={sectionRef} className="py-24 lg:py-32 relative overflow-hidden">
+      <div className="section-container relative">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Our Systematic Approach</h2>
+          <p className="text-slate-400">Architecture-first deployment for sustainable efficiency.</p>
+        </div>
+
+        <div className="relative max-w-5xl mx-auto h-[400px]">
+          {/* Animated SVG Lines */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1000 400" fill="none">
+            <path 
+              d={path1} 
+              stroke="url(#lineGradient)" 
+              strokeWidth="2" 
+              strokeDasharray="400" 
+              strokeDashoffset="400"
+              className={isVisible ? 'animate-draw' : ''}
+            />
+            <path 
+              d={path2} 
+              stroke="url(#lineGradient)" 
+              strokeWidth="2" 
+              strokeDasharray="400" 
+              strokeDashoffset="400"
+              className={isVisible ? 'animate-draw' : ''}
+              style={{ animationDelay: '1s' }}
+            />
+            <defs>
+              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.2" />
+                <stop offset="50%" stopColor="#0ea5e9" />
+                <stop offset="100%" stopColor="#10b981" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* Data Packets */}
+          {isVisible && (
+            <>
+              <div className="data-packet" style={{ '--path': `path("${path1}")`, animationDelay: '0s' } as any} />
+              <div className="data-packet" style={{ '--path': `path("${path1}")`, animationDelay: '1.5s' } as any} />
+              <div className="data-packet" style={{ '--path': `path("${path2}")`, animationDelay: '1s' } as any} />
+              <div className="data-packet" style={{ '--path': `path("${path2}")`, animationDelay: '2.5s' } as any} />
+            </>
+          )}
+
+          <div className="grid md:grid-cols-3 gap-12 relative z-10 pt-40">
+            <div className="flex flex-col items-center text-center group">
+              <div className="w-20 h-20 rounded-2xl bg-slate-900 border border-white/[0.05] flex items-center justify-center mb-6 shadow-xl transition-all duration-500 group-hover:border-sky-500/50 group-hover:shadow-sky-500/10">
+                <Database className="w-10 h-10 text-sky-500 transition-transform group-hover:scale-110" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Data Ingestion</h3>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                Connects to CRM, Email, and internal databases to consolidate lead signals.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center group">
+              <div className="w-20 h-20 rounded-2xl bg-slate-900 border border-sky-500/30 flex items-center justify-center mb-6 shadow-xl shadow-sky-500/10 transition-all duration-500 group-hover:border-sky-400 group-hover:shadow-sky-400/20">
+                <Cpu className="w-10 h-10 text-sky-400 transition-transform group-hover:scale-110" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">AI Processing</h3>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                Real-time qualification, scoring, and intent analysis via custom LLM layers.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center group">
+              <div className="w-20 h-20 rounded-2xl bg-slate-900 border border-emerald-500/30 flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/10 transition-all duration-500 group-hover:border-emerald-400 group-hover:shadow-emerald-400/20">
+                <Layers className="w-10 h-10 text-emerald-400 transition-transform group-hover:scale-110" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Tool Orchestration</h3>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                Automated outreach, CRM updates, and team notifications across your stack.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DiagnosticForm() {
+  const [step, setStep] = useState(1);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selections, setSelections] = useState({
+    sector: '',
+    bottleneck: '',
+    teamSize: ''
+  });
+
+  const sectors = [
+    { name: 'Finance', icon: Building },
+    { name: 'Healthcare', icon: HealthIcon },
+    { name: 'Logistics', icon: Truck },
+    { name: 'Manufacturing', icon: Factory },
+    { name: 'Professional Services', icon: Briefcase },
+  ];
+
+  const bottlenecks = [
+    'Manual Data Entry',
+    'Lead Qualification',
+    'Reporting & Analytics',
+    'Client Communication',
+    'Tool Integration'
+  ];
+
+  const teamSizes = [
+    '1-10 Employees',
+    '11-50 Employees',
+    '51-200 Employees',
+    '200+ Employees'
+  ];
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+    // Logic for submission would go here
+  };
+
+  if (isSubmitted) {
+    return (
+      <section className="py-24 lg:py-32 relative">
+        <div className="section-container relative">
+          <div className="max-w-2xl mx-auto card p-12 text-center bg-emerald-500/5 border-emerald-500/20 animate-fade-in-up">
+            <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-8">
+              <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">Audit Request Received!</h2>
+            <p className="text-slate-400 leading-relaxed mb-8">
+              Our team is already reviewing your context. We will deliver your custom 
+              <span className="text-white font-semibold"> Automation Roadmap</span> within the next 24-48 hours to your registered email.
+            </p>
+            <div className="flex justify-center gap-4">
+              <div className="px-4 py-2 rounded-lg bg-slate-800/50 border border-white/5 text-xs text-slate-500">
+                Sector: {selections.sector}
+              </div>
+              <div className="px-4 py-2 rounded-lg bg-slate-800/50 border border-white/5 text-xs text-slate-500">
+                Priority: {selections.bottleneck}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="py-24 lg:py-32 relative">
+      <div className="section-container relative">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 text-xs font-bold uppercase tracking-wider mb-6 border border-sky-500/20">
+              Limited to 2 Audits Per Month
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-bold text-white tracking-tight mb-4">
+              Get Your Full Audit Roadmap
+            </h2>
+            <p className="text-slate-400">Complete this 30-second diagnostic to start your free audit.</p>
+          </div>
+
+          <div className="card p-8 lg:p-12 backdrop-blur-xl border-slate-800 bg-slate-900/60 relative overflow-hidden min-h-[500px] flex flex-col">
+            {/* Form Progress Bar */}
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-slate-800">
+              <div 
+                className="h-full bg-sky-500 transition-all duration-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]" 
+                style={{ width: `${(step / 3) * 100}%` }}
+              />
+            </div>
+
+            <div className="mb-8 flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Step {step} of 3</span>
+              <span className="text-xs font-medium text-emerald-400 flex items-center gap-1">
+                <Clock className="w-3 h-3" /> Responds within 24h
+              </span>
+            </div>
+
+            <div className="flex-grow">
+              {step === 1 && (
+                <div className="space-y-6 animate-fade-in">
+                  <h3 className="text-xl font-bold text-white mb-6">Which sector do you operate in?</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    {sectors.map((s) => (
+                      <div 
+                        key={s.name}
+                        onClick={() => setSelections({...selections, sector: s.name})}
+                        className={`diagnostic-step text-center group ${selections.sector === s.name ? 'active' : ''}`}
+                      >
+                        <s.icon className={`w-8 h-8 mx-auto mb-3 transition-all duration-300 ${selections.sector === s.name ? 'text-sky-400 scale-110' : 'text-slate-500 group-hover:text-slate-400'}`} />
+                        <span className="text-xs font-semibold text-slate-300 block leading-tight">{s.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {step === 2 && (
+                <div className="space-y-6 animate-fade-in">
+                  <h3 className="text-xl font-bold text-white mb-6">What is your main workflow bottleneck?</h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {bottlenecks.map((b) => (
+                      <div 
+                        key={b}
+                        onClick={() => setSelections({...selections, bottleneck: b})}
+                        className={`diagnostic-step flex items-center gap-4 ${selections.bottleneck === b ? 'active' : ''}`}
+                      >
+                        <div className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${selections.bottleneck === b ? 'border-sky-500 bg-sky-500 scale-110' : 'border-slate-700'}`} />
+                        <span className="text-sm font-semibold text-slate-300">{b}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {step === 3 && (
+                <div className="space-y-6 animate-fade-in">
+                  <h3 className="text-xl font-bold text-white mb-6">How large is the team involved?</h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {teamSizes.map((t) => (
+                      <div 
+                        key={t}
+                        onClick={() => setSelections({...selections, teamSize: t})}
+                        className={`diagnostic-step flex items-center gap-4 ${selections.teamSize === t ? 'active' : ''}`}
+                      >
+                        <Users className={`w-5 h-5 transition-all duration-300 ${selections.teamSize === t ? 'text-sky-400 scale-110' : 'text-slate-600'}`} />
+                        <span className="text-sm font-semibold text-slate-300">{t}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-12 flex items-center justify-between gap-4">
+              {step > 1 ? (
+                <button 
+                  onClick={() => setStep(step - 1)}
+                  className="flex items-center gap-2 text-slate-500 hover:text-white transition-colors font-semibold px-4 py-2"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                  Back
+                </button>
+              ) : <div />}
+
+              <button 
+                disabled={(step === 1 && !selections.sector) || (step === 2 && !selections.bottleneck) || (step === 3 && !selections.teamSize)}
+                onClick={() => step < 3 ? setStep(step + 1) : handleSubmit()}
+                className="cta-button !py-3 !px-10 gap-2 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
+              >
+                <span className="relative z-10">{step === 3 ? 'Get My Full Audit Roadmap' : 'Continue'}</span>
+                <ChevronRight className="w-5 h-5 relative z-10 transition-transform group-hover:translate-x-1" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExitIntentModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-6">
+          <Rocket className="w-6 h-6 text-emerald-400" />
+        </div>
+        <h2 className="text-2xl font-bold text-white mb-4">Wait, before you go...</h2>
+        <p className="text-slate-400 leading-relaxed mb-8">
+          Is your operation ready for automation? Get our brief guide: 
+          <span className="text-white font-medium ml-1">5 Red Flags of Manual Friction</span> and see where you're losing time.
+        </p>
+        <div className="flex flex-col gap-3">
+          <button className="cta-button w-full !bg-emerald-500 hover:!bg-emerald-400">
+            Send Me the Guide
+          </button>
+          <button 
+            onClick={onClose}
+            className="text-sm text-slate-500 hover:text-slate-300 transition-colors py-2"
+          >
+            I'll just keep browsing
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnimatedStat({ value, suffix }: { value: string, suffix: string }) {
+  const [count, setCount] = useState(0);
+  const target = parseInt(value.replace(/[^0-9]/g, ''));
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        const duration = 2000;
+        const startTime = performance.now();
+
+        const animate = (currentTime: number) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const currentCount = Math.floor(progress * target);
+          setCount(currentCount);
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          }
+        };
+        requestAnimationFrame(animate);
+      }
+    }, { threshold: 0.5 });
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target]);
+
+  return (
+    <div ref={ref} className="text-3xl font-bold text-white mb-1">
+      {value.includes('%') ? `${count}%` : count.toLocaleString()}{suffix}
+    </div>
+  );
+}
+
+function ImpactSnapshots() {
+  const snapshots = [
+    {
+      stat: '80',
+      suffix: '% Reduction',
+      sub: 'in Processing Time',
+      detail: 'Automated document extraction and routing for a regional healthcare provider.',
+    },
+    {
+      stat: '1200',
+      suffix: '+ Hours',
+      sub: 'Saved Monthly',
+      detail: 'Reclaimed team capacity by syncing disparate CRM and financial tools.',
+    },
+    {
+      stat: '0',
+      suffix: '% Error Rate',
+      sub: 'in Data Entry',
+      detail: 'Eliminated manual transcription errors in high-stakes financial reporting.',
+    },
+  ];
+
+  return (
+    <section className="py-24 lg:py-32 relative">
+      <div className="section-container relative">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Snapshots of Success</h2>
+          <p className="text-slate-400">Real outcomes delivered through system orchestration.</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {snapshots.map((item, i) => (
+            <div key={i} className="card group hover:border-emerald-500/30 transition-all duration-500 hover:-translate-y-2">
+              <AnimatedStat value={item.stat} suffix={item.suffix} />
+              <div className="text-emerald-400 text-sm font-semibold uppercase tracking-wider mb-6">{item.sub}</div>
+              <p className="text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors italic">
+                "{item.detail}"
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FoundersNote() {
+  return (
+    <section className="py-24 lg:py-32 relative overflow-hidden">
+      <div className="section-container relative">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-12 bg-slate-900/40 p-8 lg:p-12 rounded-3xl border border-white/[0.05] backdrop-blur-md">
+          <div className="w-32 h-32 lg:w-48 lg:h-48 rounded-2xl bg-slate-800 flex-shrink-0 relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl shadow-sky-500/10 border border-white/10">
+            <img 
+              src="/Users/ne/.gemini/antigravity/brain/d427d973-b5ad-4fb3-b13a-feb6955654c3/founder_headshot_1778520099732.png" 
+              alt="Alex Rivers" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <Quote className="w-10 h-10 text-sky-500/20 mb-6" />
+            <h2 className="text-2xl font-bold text-white mb-6">Why we build systematic solutions</h2>
+            <div className="space-y-4 text-slate-400 leading-relaxed">
+              <p>
+                "Technology is often sold as a silver bullet, but without architecture, it just adds complexity. We started Automate AI because we saw brilliant teams drowning in the friction between their tools."
+              </p>
+              <p>
+                "Our goal isn't just to 'add AI'—it's to remove the invisible barriers that prevent your people from doing the work only humans can do."
+              </p>
+            </div>
+            <div className="mt-8">
+              <div className="signature text-3xl text-white opacity-80 mb-1">Alex Rivers</div>
+              <div className="text-sm text-slate-500 font-medium">Founder, Automate AI</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StickyHeader({ show }: { show: boolean }) {
+  return (
+    <nav className={`sticky-header ${show ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+      <div className="section-container flex items-center justify-between h-14">
+        <div className="flex items-center gap-2 text-white font-semibold text-sm">
+          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>AI Systems</span>
+        </div>
+        <a href="#audit" className="text-xs font-bold text-sky-400 hover:text-white transition-colors flex items-center gap-1 group">
+          Request Audit
+          <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+        </a>
+      </div>
+    </nav>
   );
 }
 
@@ -49,15 +542,57 @@ function Nav() {
   );
 }
 
+function TypewriterHeadline() {
+  const words = ["data entry", "CRM syncing", "reporting", "manual outreach"];
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+
+  useEffect(() => {
+    if (subIndex === words[index].length + 1 && !reverse) {
+      setTimeout(() => setReverse(true), 2000);
+      return;
+    }
+
+    if (subIndex === 0 && reverse) {
+      setReverse(false);
+      setIndex((prev: number) => (prev + 1) % words.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev: number) => prev + (reverse ? -1 : 1));
+    }, reverse ? 75 : 150);
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, reverse]);
+
+  return (
+    <span>
+      {words[index].substring(0, subIndex)}
+      <span className="text-sky-500 cursor-blink ml-1">|</span>
+    </span>
+  );
+}
+
+interface Particle {
+  id: number;
+  size: string;
+  left: string;
+  top: string;
+  duration: string;
+  delay: string;
+}
+
 function Hero() {
-  const [particles, setParticles] = useState<any[]>([]);
+  const [particles, setParticles] = useState<Particle[]>([]);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    const newParticles = Array.from({ length: 20 }).map((_, i) => ({
+    const newParticles: Particle[] = Array.from({ length: 20 }).map((_, i) => ({
       id: i,
       size: Math.random() * 2 + 1 + 'px',
       left: Math.random() * 100 + '%',
@@ -105,17 +640,19 @@ function Hero() {
       </div>
 
       <div className="section-container relative">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto text-center">
           <div className="animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/40 border border-white/[0.05] backdrop-blur-md text-sm text-slate-400 mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              AI-Powered Lead Generation
+              Efficiency Orchestration
             </div>
           </div>
 
-          <h1 className="animate-fade-in-up animate-delay-100 text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-8">
-            Turn Your Lead Pipeline Into an
-            <span className="text-sky-400 drop-shadow-[0_0_25px_rgba(56,189,248,0.3)]"> Automated Machine</span>
+          <h1 className="animate-fade-in-up animate-delay-100 text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-8 min-h-[3.3em] flex flex-col items-center">
+            <span>Your team is spending hours on</span>
+            <div className="h-20 flex items-center justify-center">
+              <TypewriterHeadline />
+            </div>
           </h1>
 
           <p className="animate-fade-in-up animate-delay-200 text-lg lg:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10">
@@ -137,6 +674,34 @@ function Hero() {
         </div>
       </div>
     </header>
+  );
+}
+
+function SectorCloud() {
+  const sectors = [
+    { name: 'Finance', icon: Building },
+    { name: 'Healthcare', icon: Stethoscope },
+    { name: 'Logistics', icon: Truck },
+    { name: 'Manufacturing', icon: Factory },
+    { name: 'Professional Services', icon: Briefcase },
+  ];
+
+  return (
+    <section className="pb-24 pt-12 relative overflow-hidden">
+      <div className="section-container relative">
+        <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 mb-8">
+          Solving complexity in
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          {sectors.map((sector, i) => (
+            <div key={i} className="sector-tag group animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
+              <sector.icon className="w-4 h-4 text-slate-500 group-hover:text-sky-400 transition-colors" />
+              <span>{sector.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -445,37 +1010,6 @@ function AutomationCalculator() {
   );
 }
 
-function FinalCTA() {
-  return (
-    <section className="py-24 lg:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-sky-500/10 rounded-full blur-[120px] animate-breathing" />
-      </div>
-
-      <div className="section-container relative">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6">
-            Get Your Free Automation Audit
-          </h2>
-          <p className="text-lg text-slate-400 leading-relaxed mb-10 max-w-2xl mx-auto">
-            Understand exactly where AI automation can improve your lead generation,
-            with a clear plan and real numbers to back it up.
-          </p>
-          <div className="relative inline-block">
-            <div className="absolute inset-0 bg-sky-500/20 rounded-lg blur-xl animate-pulse-ring scale-150" />
-            <a href="#audit" className="cta-button text-lg gap-2.5 relative z-10">
-              Free Automation Audit
-              <ArrowRight className="w-5 h-5" />
-            </a>
-          </div>
-          <p className="mt-6 text-sm text-slate-500">
-            Delivered within 5 business days. No strings attached.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function Footer() {
   return (
