@@ -58,7 +58,7 @@
 
   .card {
     @apply relative bg-slate-900/40 border border-slate-800/50 rounded-2xl p-8
-           backdrop-blur-sm transition-all duration-300 overflow-hidden;
+           backdrop-blur-md transition-all duration-300 overflow-hidden;
   }
 
   .card::before {
@@ -72,7 +72,7 @@
 
   .step-card {
     @apply relative bg-slate-900/30 border border-slate-800/40 rounded-2xl p-8
-           backdrop-blur-sm transition-all duration-300 overflow-hidden;
+           backdrop-blur-md transition-all duration-300 overflow-hidden;
   }
 
   .step-card::before {
@@ -131,6 +131,19 @@
   top: var(--top);
   width: var(--size);
   height: var(--size);
+}
+
+/* Custom Range Input Styling */
+input[type='range'] {
+  @apply w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-500;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)] border-2 border-white transition-transform duration-200 hover:scale-125;
+}
+
+input[type='range']::-moz-range-thumb {
+  @apply w-4 h-4 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)] border-2 border-white transition-transform duration-200 hover:scale-125;
 }
 
 @keyframes fade-in-up {

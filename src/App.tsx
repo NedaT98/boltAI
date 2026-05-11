@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Zap, Search, BarChart3, ArrowRight, CheckCircle2, MessageSquare, Lightbulb } from 'lucide-react';
+import { 
+  Zap, Search, BarChart3, ArrowRight, CheckCircle2, 
+  MessageSquare, Lightbulb, Users, Clock, ArrowLeftRight,
+  Mail, FileSpreadsheet, AlertCircle, BrainCircuit, Rocket
+} from 'lucide-react';
 
 function App() {
   return (
@@ -9,7 +13,11 @@ function App() {
       <div className="gradient-divider" />
       <AuditOffer />
       <div className="gradient-divider" />
+      <WorkflowComparison />
+      <div className="gradient-divider" />
       <Process />
+      <div className="gradient-divider" />
+      <AutomationCalculator />
       <div className="gradient-divider" />
       <FinalCTA />
       <Footer />
@@ -43,8 +51,12 @@ function Nav() {
 
 function Hero() {
   const [particles, setParticles] = useState<any[]>([]);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     const newParticles = Array.from({ length: 20 }).map((_, i) => ({
       id: i,
       size: Math.random() * 2 + 1 + 'px',
@@ -54,14 +66,26 @@ function Hero() {
       delay: Math.random() * 5 + 's',
     }));
     setParticles(newParticles);
+
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <header className="relative pt-32 pb-24 lg:pt-44 lg:pb-32 overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[700px] bg-sky-500/10 rounded-full blur-[120px] glow-orb animate-breathing" />
-        <div className="absolute top-40 right-[-10%] w-[500px] h-[500px] bg-emerald-500/8 rounded-full blur-[100px] glow-orb" style={{ animationDelay: '3s', animationDuration: '8s' }} />
+        <div 
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[700px] bg-sky-500/10 rounded-full blur-[120px] glow-orb animate-breathing" 
+          style={{ transform: `translate(-50%, ${scrollY * 0.15}px)` }}
+        />
+        <div 
+          className="absolute top-40 right-[-10%] w-[500px] h-[500px] bg-emerald-500/8 rounded-full blur-[100px] glow-orb" 
+          style={{ 
+            animationDelay: '3s', 
+            animationDuration: '8s',
+            transform: `translateY(${scrollY * -0.1}px)`
+          }} 
+        />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_30%,rgba(2,6,23,0.9)_100%)]" />
         
         {/* Particle Field */}
@@ -113,6 +137,95 @@ function Hero() {
         </div>
       </div>
     </header>
+  );
+}
+
+function WorkflowComparison() {
+  const [isAutomated, setIsAutomated] = useState(false);
+
+  return (
+    <section className="py-24 lg:py-32 relative overflow-hidden bg-slate-900/20">
+      <div className="section-container relative">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-6">
+            Stop Fighting the Chaos
+          </h2>
+          <p className="text-lg text-slate-400 mb-10">
+            See the difference between manual lead management and an automated AI system.
+          </p>
+          
+          <button 
+            onClick={() => setIsAutomated(!isAutomated)}
+            className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-slate-800 border border-slate-700 hover:border-sky-500 transition-all duration-300 group"
+          >
+            <div className={`w-10 h-5 rounded-full relative transition-colors duration-500 ${isAutomated ? 'bg-sky-500' : 'bg-slate-600'}`}>
+              <div className={`absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-transform duration-500 ${isAutomated ? 'translate-x-5' : 'translate-x-0'}`} />
+            </div>
+            <span className="text-sm font-semibold text-white tracking-wide uppercase">
+              {isAutomated ? 'Automated Flow' : 'Manual Chaos'}
+            </span>
+          </button>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className={`card transition-all duration-700 h-[400px] flex flex-col justify-center relative ${!isAutomated ? 'ring-2 ring-amber-500/50 scale-105' : 'opacity-40 grayscale pointer-events-none'}`}>
+            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+              <AlertCircle className="text-amber-400" />
+              The Manual Struggle
+            </h3>
+            <div className="space-y-6 relative">
+              <div className="flex items-center gap-4 text-slate-400 animate-pulse" style={{ animationDelay: '0s' }}>
+                <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center text-amber-500">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <span>Sorting through 100+ unread emails manually</span>
+              </div>
+              <div className="flex items-center gap-4 text-slate-400 animate-pulse" style={{ animationDelay: '0.2s' }}>
+                <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center text-amber-500">
+                  <FileSpreadsheet className="w-5 h-5" />
+                </div>
+                <span>Copy-pasting lead data into spreadsheets</span>
+              </div>
+              <div className="flex items-center gap-4 text-slate-400 animate-pulse" style={{ animationDelay: '0.4s' }}>
+                <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center text-amber-500">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <span>6+ hour delay in first outreach response</span>
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent pointer-events-none rounded-2xl" />
+          </div>
+
+          <div className={`card transition-all duration-700 h-[400px] flex flex-col justify-center relative ${isAutomated ? 'ring-2 ring-sky-500/50 scale-105 shadow-2xl shadow-sky-500/20' : 'opacity-40 grayscale pointer-events-none'}`}>
+            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+              <BrainCircuit className="text-sky-400" />
+              The AI Advantage
+            </h3>
+            <div className="space-y-6 relative">
+              <div className="flex items-center gap-4 text-slate-200">
+                <div className="w-10 h-10 rounded-lg bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <span className="font-medium">Instant AI lead qualification & scoring</span>
+              </div>
+              <div className="flex items-center gap-4 text-slate-200">
+                <div className="w-10 h-10 rounded-lg bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                  <MessageSquare className="w-5 h-5" />
+                </div>
+                <span className="font-medium">Personalized outreach sent in &lt; 2 minutes</span>
+              </div>
+              <div className="flex items-center gap-4 text-slate-200">
+                <div className="w-10 h-10 rounded-lg bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                  <Rocket className="w-5 h-5" />
+                </div>
+                <span className="font-medium">Qualified deals synced directly to CRM</span>
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-transparent pointer-events-none rounded-2xl" />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -235,6 +348,96 @@ function Process() {
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.02] border border-white/[0.05] backdrop-blur-md text-slate-400">
             <MessageSquare className="w-4 h-4 text-sky-400" />
             <span className="text-sm">No sales calls. No follow-up sequences. Just the audit.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AutomationCalculator() {
+  const [teamSize, setTeamSize] = useState(10);
+  const [manualHours, setManualHours] = useState(8);
+
+  const hoursSavedPerWeek = teamSize * manualHours * 0.7;
+  const hoursSavedPerMonth = Math.round(hoursSavedPerWeek * 4.33);
+  const daysSavedPerYear = Math.round((hoursSavedPerWeek * 52) / 8);
+
+  return (
+    <section className="py-24 lg:py-32 relative overflow-hidden bg-slate-900/20">
+      <div className="section-container relative">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-6">
+              Calculate Your Potential Savings
+            </h2>
+            <p className="text-lg text-slate-400 mb-10 leading-relaxed">
+              Find out how much time your team could reclaim by automating repetitive lead generation and qualification tasks.
+            </p>
+
+            <div className="space-y-10">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <label className="text-white font-medium flex items-center gap-2">
+                    <Users className="w-4 h-4 text-sky-400" />
+                    Team Size
+                  </label>
+                  <span className="px-3 py-1 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400 font-bold">
+                    {teamSize} People
+                  </span>
+                </div>
+                <input 
+                  type="range" min="1" max="50" step="1"
+                  value={teamSize}
+                  onChange={(e) => setTeamSize(parseInt(e.target.value))}
+                />
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <label className="text-white font-medium flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-sky-400" />
+                    Manual Task Hours (per person / week)
+                  </label>
+                  <span className="px-3 py-1 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400 font-bold">
+                    {manualHours} hrs
+                  </span>
+                </div>
+                <input 
+                  type="range" min="1" max="20" step="1"
+                  value={manualHours}
+                  onChange={(e) => setManualHours(parseInt(e.target.value))}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="relative">
+            {/* Background glow for calculator */}
+            <div className="absolute inset-0 bg-sky-500/10 rounded-3xl blur-3xl -z-10" />
+            <div className="card p-10 backdrop-blur-xl border-slate-700/50 bg-slate-900/80">
+              <div className="text-center space-y-12">
+                <div>
+                  <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2">Reclaimed Per Month</p>
+                  <div className="text-6xl sm:text-7xl font-bold text-white tracking-tighter">
+                    {hoursSavedPerMonth.toLocaleString()}
+                    <span className="text-sky-400 text-2xl sm:text-3xl ml-2 tracking-normal font-medium">hrs</span>
+                  </div>
+                </div>
+                
+                <div className="pt-8 border-t border-slate-800">
+                  <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2">Total Impact Per Year</p>
+                  <div className="text-4xl sm:text-5xl font-bold text-emerald-400 tracking-tight">
+                    {daysSavedPerYear.toLocaleString()}
+                    <span className="text-slate-500 text-xl ml-2 font-medium">Work Days</span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-sky-500/5 border border-sky-500/10 text-sky-200/80 text-sm leading-relaxed italic">
+                  "Based on conservative estimates of 70% automation efficiency for manual prospecting and lead qualification tasks."
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
