@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { 
   Zap, Search, BarChart3, ArrowRight, CheckCircle2, 
-  MessageSquare, Lightbulb, Users, Clock, ArrowLeftRight,
+  MessageSquare, Lightbulb, Users, Clock,
   Mail, FileSpreadsheet, AlertCircle, BrainCircuit, Rocket
 } from 'lucide-react';
 
