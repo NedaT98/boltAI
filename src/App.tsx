@@ -98,9 +98,9 @@ function SystemSchematic() {
           <p className="text-slate-400">Architecture-first deployment for sustainable efficiency.</p>
         </div>
 
-        <div className="relative max-w-5xl mx-auto h-[400px]">
+        <div className="relative max-w-5xl mx-auto md:h-[400px]">
           {/* Animated SVG Lines */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1000 400" fill="none">
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 hidden md:block" viewBox="0 0 1000 400" fill="none">
             <path 
               d={path1} 
               stroke="url(#lineGradient)" 
@@ -129,15 +129,15 @@ function SystemSchematic() {
 
           {/* Data Packets */}
           {isVisible && (
-            <>
+            <div className="hidden md:block">
               <div className="data-packet" style={{ '--path': `path("${path1}")`, animationDelay: '0s' } as any} />
               <div className="data-packet" style={{ '--path': `path("${path1}")`, animationDelay: '1.5s' } as any} />
               <div className="data-packet" style={{ '--path': `path("${path2}")`, animationDelay: '1s' } as any} />
               <div className="data-packet" style={{ '--path': `path("${path2}")`, animationDelay: '2.5s' } as any} />
-            </>
+            </div>
           )}
 
-          <div className="grid md:grid-cols-3 gap-12 relative z-10 pt-40">
+          <div className="grid md:grid-cols-3 gap-8 md:gap-12 relative z-10 pt-8 md:pt-40">
             <div className="flex flex-col items-center text-center group">
               <div className="w-20 h-20 rounded-2xl bg-slate-900 border border-white/[0.05] flex items-center justify-center mb-6 shadow-xl transition-all duration-500 group-hover:border-sky-500/50 group-hover:shadow-sky-500/10">
                 <Database className="w-10 h-10 text-sky-500 transition-transform group-hover:scale-110" />
@@ -851,8 +851,7 @@ function AuditOffer() {
             What the Free Audit Includes
           </h2>
           <p className="text-lg text-slate-400 leading-relaxed">
-            A clear, structured review of your lead generation process with
-            actionable recommendations you can implement on your own or with our help.
+            A clear, structured review of how your brokerage handles inbound leads — and exactly where deals are being lost.
           </p>
         </div>
 
