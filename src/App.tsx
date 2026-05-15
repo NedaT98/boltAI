@@ -4,7 +4,7 @@ import {
   MessageSquare, Lightbulb, Users, Clock,
   Mail, FileSpreadsheet, AlertCircle, BrainCircuit, Rocket,
   Building, Stethoscope, Truck, Factory, Briefcase,
-  Quote, X, Cpu, Layers, Database, ChevronLeft, ChevronRight,
+  Quote, X, Cpu, Layers, Database, ChevronLeft, ChevronRight, RotateCcw,
   Stethoscope as HealthIcon
 } from 'lucide-react';
 
@@ -49,7 +49,7 @@ function App() {
       <StickyHeader show={showSticky} />
       {showModal && <ExitIntentModal onClose={closeModal} />}
       <Hero />
-      <SectorCloud />
+      <WhatsAppDemo />
       <div className="gradient-divider" />
       <AuditOffer />
       <div className="gradient-divider" />
@@ -178,18 +178,9 @@ function DiagnosticForm() {
   const [step, setStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selections, setSelections] = useState({
-    sector: '',
     bottleneck: '',
     teamSize: ''
   });
-
-  const sectors = [
-    { name: 'Finance', icon: Building },
-    { name: 'Healthcare', icon: HealthIcon },
-    { name: 'Logistics', icon: Truck },
-    { name: 'Manufacturing', icon: Factory },
-    { name: 'Professional Services', icon: Briefcase },
-  ];
 
   const bottlenecks = [
     'Manual Data Entry',
@@ -226,10 +217,10 @@ function DiagnosticForm() {
             </p>
             <div className="flex justify-center gap-4">
               <div className="px-4 py-2 rounded-lg bg-slate-800/50 border border-white/5 text-xs text-slate-500">
-                Sector: {selections.sector}
+                Priority: {selections.bottleneck}
               </div>
               <div className="px-4 py-2 rounded-lg bg-slate-800/50 border border-white/5 text-xs text-slate-500">
-                Priority: {selections.bottleneck}
+                Team Size: {selections.teamSize}
               </div>
             </div>
           </div>
@@ -257,12 +248,12 @@ function DiagnosticForm() {
             <div className="absolute top-0 left-0 w-full h-1.5 bg-slate-800">
               <div 
                 className="h-full bg-sky-500 transition-all duration-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]" 
-                style={{ width: `${(step / 3) * 100}%` }}
+                style={{ width: `${(step / 2) * 100}%` }}
               />
             </div>
 
             <div className="mb-8 flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Step {step} of 3</span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Step {step} of 2</span>
               <span className="text-xs font-medium text-emerald-400 flex items-center gap-1">
                 <Clock className="w-3 h-3" /> Responds within 24h
               </span>
@@ -270,24 +261,6 @@ function DiagnosticForm() {
 
             <div className="flex-grow">
               {step === 1 && (
-                <div className="space-y-6 animate-fade-in">
-                  <h3 className="text-xl font-bold text-white mb-6">Which sector do you operate in?</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    {sectors.map((s) => (
-                      <div 
-                        key={s.name}
-                        onClick={() => setSelections({...selections, sector: s.name})}
-                        className={`diagnostic-step text-center group ${selections.sector === s.name ? 'active' : ''}`}
-                      >
-                        <s.icon className={`w-8 h-8 mx-auto mb-3 transition-all duration-300 ${selections.sector === s.name ? 'text-sky-400 scale-110' : 'text-slate-500 group-hover:text-slate-400'}`} />
-                        <span className="text-xs font-semibold text-slate-300 block leading-tight">{s.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {step === 2 && (
                 <div className="space-y-6 animate-fade-in">
                   <h3 className="text-xl font-bold text-white mb-6">What is your main workflow bottleneck?</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
@@ -305,7 +278,7 @@ function DiagnosticForm() {
                 </div>
               )}
 
-              {step === 3 && (
+              {step === 2 && (
                 <div className="space-y-6 animate-fade-in">
                   <h3 className="text-xl font-bold text-white mb-6">How large is the team involved?</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
@@ -336,11 +309,11 @@ function DiagnosticForm() {
               ) : <div />}
 
               <button 
-                disabled={(step === 1 && !selections.sector) || (step === 2 && !selections.bottleneck) || (step === 3 && !selections.teamSize)}
-                onClick={() => step < 3 ? setStep(step + 1) : handleSubmit()}
+                disabled={(step === 1 && !selections.bottleneck) || (step === 2 && !selections.teamSize)}
+                onClick={() => step < 2 ? setStep(step + 1) : handleSubmit()}
                 className="cta-button !py-3 !px-10 gap-2 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
               >
-                <span className="relative z-10">{step === 3 ? 'Get My Full Audit Roadmap' : 'Continue'}</span>
+                <span className="relative z-10">{step === 2 ? 'Get My Full Audit Roadmap' : 'Continue'}</span>
                 <ChevronRight className="w-5 h-5 relative z-10 transition-transform group-hover:translate-x-1" />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
               </button>
@@ -677,28 +650,123 @@ function Hero() {
   );
 }
 
-function SectorCloud() {
-  const sectors = [
-    { name: 'Finance', icon: Building },
-    { name: 'Healthcare', icon: Stethoscope },
-    { name: 'Logistics', icon: Truck },
-    { name: 'Manufacturing', icon: Factory },
-    { name: 'Professional Services', icon: Briefcase },
-  ];
+function WhatsAppDemo() {
+  const [phase, setPhase] = useState(0); // 0: hidden, 1: lead message, 2: typing, 3: AI message
+  
+  useEffect(() => {
+    let timeout1: ReturnType<typeof setTimeout>;
+    let timeout2: ReturnType<typeof setTimeout>;
+    let timeout3: ReturnType<typeof setTimeout>;
+    
+    timeout1 = setTimeout(() => setPhase(1), 500); // Lead message appears
+    timeout2 = setTimeout(() => setPhase(2), 1500); // Typing starts
+    timeout3 = setTimeout(() => setPhase(3), 4000); // AI message appears
+    
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
+    };
+  }, []);
+
+  const handleReplay = () => {
+    setPhase(0);
+    setTimeout(() => {
+      setPhase(1);
+      setTimeout(() => setPhase(2), 1000);
+      setTimeout(() => setPhase(3), 3500);
+    }, 100);
+  };
 
   return (
-    <section className="pb-24 pt-12 relative overflow-hidden">
+    <section className="py-24 lg:py-32 relative overflow-hidden bg-slate-900/40 border-y border-white/[0.02]">
       <div className="section-container relative">
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 mb-8">
-          Solving complexity in
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          {sectors.map((sector, i) => (
-            <div key={i} className="sector-tag group animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
-              <sector.icon className="w-4 h-4 text-slate-500 group-hover:text-sky-400 transition-colors" />
-              <span>{sector.name}</span>
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="max-w-xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6 border border-emerald-500/20">
+              <Clock className="w-3.5 h-3.5" />
+              WATCH IT HAPPEN · 90S
             </div>
-          ))}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-6">
+              From inbound lead to qualified buyer.
+            </h2>
+            <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+              A real reply sequence the system runs every time a lead lands — no agent involved.
+            </p>
+            <button 
+              onClick={handleReplay}
+              className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors bg-slate-800/50 hover:bg-slate-800 px-4 py-2 rounded-lg border border-white/5"
+            >
+              <RotateCcw className={`w-4 h-4 ${phase < 3 ? 'animate-spin-slow' : ''}`} /> 
+              Replay Sequence
+            </button>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-[340px]">
+            {/* Background Glow */}
+            <div className="absolute inset-0 bg-emerald-500/20 blur-[80px] rounded-full" />
+            
+            {/* Phone Frame */}
+            <div className="card p-0 bg-slate-950/80 border-slate-700/50 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-2xl shadow-emerald-500/10 relative border-4">
+              {/* Header */}
+              <div className="bg-slate-900 border-b border-white/[0.05] p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-500 overflow-hidden relative">
+                  <Users className="w-5 h-5" />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-900"></div>
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-white">Marina Gate · Lead</div>
+                  <div className="text-xs text-emerald-400 font-medium">online</div>
+                </div>
+              </div>
+
+              {/* Chat Area */}
+              <div className="p-5 h-[380px] flex flex-col gap-4 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-opacity-5">
+                
+                {/* Lead Message */}
+                <div className={`transition-all duration-500 transform ${phase >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'} flex`}>
+                  <div className="bg-slate-800 text-slate-200 p-3 px-4 rounded-2xl rounded-tl-sm max-w-[85%] text-[13px] leading-relaxed shadow-sm">
+                    Hi, interested in the 2BR at Marina Gate. Still available?
+                  </div>
+                </div>
+
+                {/* Typing Indicator */}
+                <div className={`transition-all duration-300 flex justify-end ${phase === 2 ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden m-0'}`}>
+                  <div className="bg-emerald-600/20 text-emerald-400 p-3 px-4 rounded-2xl rounded-tr-sm text-[13px] shadow-sm flex items-center gap-1.5 h-10">
+                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></span>
+                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></span>
+                  </div>
+                </div>
+
+                {/* AI Message */}
+                <div className={`transition-all duration-500 transform ${phase >= 3 ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 h-0 overflow-hidden'} flex justify-end`}>
+                  <div className="bg-emerald-600 text-white p-3 px-4 rounded-2xl rounded-tr-sm max-w-[85%] text-[13px] leading-relaxed shadow-md">
+                    Hi Ahmed — yes it's available. AED 2.4M, 1,180 sqft, vacant Sep 1. Are you cash or mortgage, and when can you view?
+                  </div>
+                </div>
+                
+              </div>
+
+              {/* Input Area (Mock) */}
+              <div className="bg-slate-900 border-t border-white/[0.05] p-3 flex items-center gap-2">
+                <div className="flex-grow bg-slate-950 rounded-full h-9 border border-white/[0.05]"></div>
+                <div className="w-9 h-9 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+
+              {/* Success Badge */}
+              <div className={`absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 w-[85%] transition-all duration-500 z-10 ${phase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                <div className="bg-slate-900/95 border border-emerald-500/30 backdrop-blur-md rounded-full py-2.5 px-4 flex items-center justify-center gap-2 shadow-2xl shadow-emerald-500/20">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span className="text-[9px] sm:text-[10px] font-bold text-emerald-400 uppercase tracking-wider whitespace-nowrap">
+                    Replied in 90s · Qualified to Agent
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
