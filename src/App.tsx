@@ -176,18 +176,16 @@ function SystemSchematic() {
 
 function DiagnosticForm() {
   const [step, setStep] = useState(1);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [selections, setSelections] = useState({
     bottleneck: '',
     teamSize: ''
   });
 
   const bottlenecks = [
-    'Manual Data Entry',
-    'Lead Qualification',
-    'Reporting & Analytics',
-    'Client Communication',
-    'Tool Integration'
+    'Slow lead response time',
+    'Unqualified leads wasting agent time',
+    'Leads not followed up after first contact',
+    'No visibility on lead pipeline'
   ];
 
   const teamSizes = [
@@ -198,36 +196,8 @@ function DiagnosticForm() {
   ];
 
   const handleSubmit = () => {
-    setIsSubmitted(true);
-    // Logic for submission would go here
+    window.location.href = "https://calendly.com/your-booking-link";
   };
-
-  if (isSubmitted) {
-    return (
-      <section className="py-24 lg:py-32 relative">
-        <div className="section-container relative">
-          <div className="max-w-2xl mx-auto card p-12 text-center bg-emerald-500/5 border-emerald-500/20 animate-fade-in-up">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-8">
-              <CheckCircle2 className="w-10 h-10 text-emerald-400" />
-            </div>
-            <h2 className="text-3xl font-bold text-white mb-4">Audit Request Received!</h2>
-            <p className="text-slate-400 leading-relaxed mb-8">
-              Our team is already reviewing your context. We will deliver your custom 
-              <span className="text-white font-semibold"> Automation Roadmap</span> within the next 24-48 hours to your registered email.
-            </p>
-            <div className="flex justify-center gap-4">
-              <div className="px-4 py-2 rounded-lg bg-slate-800/50 border border-white/5 text-xs text-slate-500">
-                Priority: {selections.bottleneck}
-              </div>
-              <div className="px-4 py-2 rounded-lg bg-slate-800/50 border border-white/5 text-xs text-slate-500">
-                Team Size: {selections.teamSize}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="py-24 lg:py-32 relative">
@@ -240,7 +210,7 @@ function DiagnosticForm() {
             <h2 className="text-3xl sm:text-5xl font-bold text-white tracking-tight mb-4">
               Get Your Full Audit Roadmap
             </h2>
-            <p className="text-slate-400">Complete this 30-second diagnostic to start your free audit.</p>
+            <p className="text-slate-400">A clear, structured review of how your brokerage handles inbound leads — and exactly where deals are being lost.</p>
           </div>
 
           <div className="card p-8 lg:p-12 backdrop-blur-xl border-slate-800 bg-slate-900/60 relative overflow-hidden min-h-[500px] flex flex-col">
@@ -252,11 +222,8 @@ function DiagnosticForm() {
               />
             </div>
 
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-8">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Step {step} of 2</span>
-              <span className="text-xs font-medium text-emerald-400 flex items-center gap-1">
-                <Clock className="w-3 h-3" /> Responds within 24h
-              </span>
             </div>
 
             <div className="flex-grow">
@@ -313,7 +280,7 @@ function DiagnosticForm() {
                 onClick={() => step < 2 ? setStep(step + 1) : handleSubmit()}
                 className="cta-button !py-3 !px-10 gap-2 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
               >
-                <span className="relative z-10">{step === 2 ? 'Get My Full Audit Roadmap' : 'Continue'}</span>
+                <span className="relative z-10">{step === 2 ? 'Book Audit Call' : 'Continue'}</span>
                 <ChevronRight className="w-5 h-5 relative z-10 transition-transform group-hover:translate-x-1" />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
               </button>
@@ -398,22 +365,22 @@ function AnimatedStat({ value, suffix }: { value: string, suffix: string }) {
 function ImpactSnapshots() {
   const snapshots = [
     {
-      stat: '80',
-      suffix: '% Reduction',
-      sub: 'in Processing Time',
-      detail: 'Automated document extraction and routing for a regional healthcare provider.',
+      stat: '90',
+      suffix: ' Seconds',
+      sub: 'Average lead response time with automation',
+      detail: 'The difference between winning and losing a deal in Dubai real estate.',
     },
     {
-      stat: '1200',
-      suffix: '+ Hours',
-      sub: 'Saved Monthly',
-      detail: 'Reclaimed team capacity by syncing disparate CRM and financial tools.',
+      stat: '78',
+      suffix: '%',
+      sub: 'Of deals go to the first agent who responds',
+      detail: 'Not the best agent. Not the cheapest. The fastest.',
     },
     {
-      stat: '0',
-      suffix: '% Error Rate',
-      sub: 'in Data Entry',
-      detail: 'Eliminated manual transcription errors in high-stakes financial reporting.',
+      stat: '24',
+      suffix: '/7',
+      sub: 'Automated lead coverage',
+      detail: 'Your brokerage never misses an inquiry — day or night.',
     },
   ];
 
@@ -444,28 +411,20 @@ function FoundersNote() {
   return (
     <section className="py-24 lg:py-32 relative overflow-hidden">
       <div className="section-container relative">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-12 bg-slate-900/40 p-8 lg:p-12 rounded-3xl border border-white/[0.05] backdrop-blur-md">
-          <div className="w-32 h-32 lg:w-48 lg:h-48 rounded-2xl bg-slate-800 flex-shrink-0 relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl shadow-sky-500/10 border border-white/10">
-            <img 
-              src="/Users/ne/.gemini/antigravity/brain/d427d973-b5ad-4fb3-b13a-feb6955654c3/founder_headshot_1778520099732.png" 
-              alt="Alex Rivers" 
-              className="w-full h-full object-cover"
-            />
-          </div>
+        <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-8 bg-slate-900/40 p-8 lg:p-12 rounded-3xl border border-white/[0.05] backdrop-blur-md">
           <div>
-            <Quote className="w-10 h-10 text-sky-500/20 mb-6" />
-            <h2 className="text-2xl font-bold text-white mb-6">Why we build systematic solutions</h2>
-            <div className="space-y-4 text-slate-400 leading-relaxed">
+            <Quote className="w-10 h-10 text-sky-500/20 mx-auto mb-6" />
+            <div className="space-y-4 text-xl md:text-2xl font-medium text-white leading-relaxed max-w-3xl mx-auto">
               <p>
-                "Technology is often sold as a silver bullet, but without architecture, it just adds complexity. We started Automate AI because we saw brilliant teams drowning in the friction between their tools."
+                "Most brokerages in Dubai aren't losing deals because of bad agents. They're losing them because no one responded fast enough."
               </p>
-              <p>
-                "Our goal isn't just to 'add AI'—it's to remove the invisible barriers that prevent your people from doing the work only humans can do."
+              <p className="text-slate-400 text-lg mt-6">
+                "I built Automate AI because I saw a simple problem with a simple fix — and I wanted to make sure the right people had access to it."
               </p>
             </div>
-            <div className="mt-8">
-              <div className="signature text-3xl text-white opacity-80 mb-1">Alex Rivers</div>
-              <div className="text-sm text-slate-500 font-medium">Founder, Automate AI</div>
+            <div className="mt-10">
+              <div className="text-xl text-white font-bold mb-1">Neda Taleloidi</div>
+              <div className="text-sm text-sky-400 font-medium uppercase tracking-wider">Founder, Automate AI</div>
             </div>
           </div>
         </div>
@@ -516,7 +475,7 @@ function Nav() {
 }
 
 function TypewriterHeadline() {
-  const words = ["data entry", "CRM syncing", "reporting", "manual outreach"];
+  const words = ["chasing cold leads", "missing inbound inquiries", "slow response times", "losing deals to faster agents"];
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [reverse, setReverse] = useState(false);
@@ -617,7 +576,7 @@ function Hero() {
           <div className="animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/40 border border-white/[0.05] backdrop-blur-md text-sm text-slate-400 mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Efficiency Orchestration
+              Dubai Real Estate Automation
             </div>
           </div>
 
@@ -629,15 +588,14 @@ function Hero() {
           </h1>
 
           <p className="animate-fade-in-up animate-delay-200 text-lg lg:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10">
-            We design and deploy AI automation systems that find, qualify, and nurture
-            leads so your team can focus on closing deals instead of chasing them.
+            We automate lead response for Dubai real estate brokerages — so every inbound inquiry gets answered in under 90 seconds and lands in the right agent's hands.
           </p>
 
           <div className="animate-fade-in-up animate-delay-300 relative inline-block">
             {/* Pulsing ring background */}
             <div className="absolute inset-0 bg-sky-500/20 rounded-lg blur-xl animate-pulse-ring scale-150" />
             <a href="#audit" className="cta-button text-lg gap-2.5 relative z-10">
-              Free Automation Audit
+              Book Your Free Audit Call
               <ArrowRight className="w-5 h-5" />
             </a>
             <p className="mt-6 text-sm text-slate-500">
@@ -784,7 +742,7 @@ function WorkflowComparison() {
             Stop Fighting the Chaos
           </h2>
           <p className="text-lg text-slate-400 mb-10">
-            See the difference between manual lead management and an automated AI system.
+            See what changes when your brokerage stops relying on manual follow-up.
           </p>
           
           <button 
@@ -917,10 +875,10 @@ function AuditOffer() {
           </p>
           <ul className="space-y-3">
             {[
-              'Your sales team spends significant time on manual prospecting and outreach',
-              'You have a defined lead generation process but know it could be more efficient',
-              'You are curious about AI automation but unsure where to start',
-              'You want to scale lead volume without proportionally scaling headcount',
+              "Your brokerage receives inbound leads but response time is too slow",
+              "You're losing deals to competitors who respond faster",
+              "Your agents are overwhelmed and can't follow up with every lead",
+              "You want to scale without hiring more staff",
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-3 text-slate-300 group">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 shrink-0 transition-transform group-hover:scale-110" />
@@ -939,12 +897,12 @@ function Process() {
     {
       number: '01',
       title: 'You Share Your Context',
-      description: 'Tell us about your current lead generation setup, goals, and challenges through a brief questionnaire. Takes about 10 minutes.',
+      description: 'Tell us about your current lead response setup — how inquiries come in, how agents respond, and where things slow down. Takes about 10 minutes.',
     },
     {
       number: '02',
       title: 'We Build Your Audit',
-      description: 'Our team reviews your process and builds a tailored automation plan with specific tool recommendations and projected outcomes.',
+      description: 'We review your setup and build a tailored automation plan specifically for your brokerage — with clear recommendations and projected outcomes.',
     },
     {
       number: '03',
@@ -990,11 +948,10 @@ function Process() {
 
 function AutomationCalculator() {
   const [teamSize, setTeamSize] = useState(10);
-  const [manualHours, setManualHours] = useState(8);
+  const [leadsPerDay, setLeadsPerDay] = useState(50);
 
-  const hoursSavedPerWeek = teamSize * manualHours * 0.7;
-  const hoursSavedPerMonth = Math.round(hoursSavedPerWeek * 4.33);
-  const daysSavedPerYear = Math.round((hoursSavedPerWeek * 52) / 8);
+  const extraDealsPerMonth = Math.round(teamSize * leadsPerDay * 30 * 0.005);
+  const extraDealsPerYear = extraDealsPerMonth * 12;
 
   return (
     <section className="py-24 lg:py-32 relative overflow-hidden bg-slate-900/20">
@@ -1005,7 +962,7 @@ function AutomationCalculator() {
               Calculate Your Potential Savings
             </h2>
             <p className="text-lg text-slate-400 mb-10 leading-relaxed">
-              Find out how much time your team could reclaim by automating repetitive lead generation and qualification tasks.
+              Find out how many deals your brokerage could be winning by responding to every lead in under 90 seconds.
             </p>
 
             <div className="space-y-10">
@@ -1016,7 +973,7 @@ function AutomationCalculator() {
                     Team Size
                   </label>
                   <span className="px-3 py-1 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400 font-bold">
-                    {teamSize} People
+                    {teamSize} Agents
                   </span>
                 </div>
                 <input 
@@ -1030,16 +987,16 @@ function AutomationCalculator() {
                 <div className="flex justify-between items-center">
                   <label className="text-white font-medium flex items-center gap-2">
                     <Clock className="w-4 h-4 text-sky-400" />
-                    Manual Task Hours (per person / week)
+                    Average leads per day (per agent)
                   </label>
                   <span className="px-3 py-1 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400 font-bold">
-                    {manualHours} hrs
+                    {leadsPerDay} Leads
                   </span>
                 </div>
                 <input 
-                  type="range" min="1" max="20" step="1"
-                  value={manualHours}
-                  onChange={(e) => setManualHours(parseInt(e.target.value))}
+                  type="range" min="1" max="100" step="1"
+                  value={leadsPerDay}
+                  onChange={(e) => setLeadsPerDay(parseInt(e.target.value))}
                 />
               </div>
             </div>
@@ -1051,23 +1008,23 @@ function AutomationCalculator() {
             <div className="card p-10 backdrop-blur-xl border-slate-700/50 bg-slate-900/80">
               <div className="text-center space-y-12">
                 <div>
-                  <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2">Reclaimed Per Month</p>
+                  <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2">Extra Deals Won Per Month</p>
                   <div className="text-6xl sm:text-7xl font-bold text-white tracking-tighter">
-                    {hoursSavedPerMonth.toLocaleString()}
-                    <span className="text-sky-400 text-2xl sm:text-3xl ml-2 tracking-normal font-medium">hrs</span>
+                    {extraDealsPerMonth.toLocaleString()}
+                    <span className="text-sky-400 text-xl sm:text-2xl ml-2 tracking-normal font-medium">Deals</span>
                   </div>
                 </div>
                 
                 <div className="pt-8 border-t border-slate-800">
                   <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2">Total Impact Per Year</p>
                   <div className="text-4xl sm:text-5xl font-bold text-emerald-400 tracking-tight">
-                    {daysSavedPerYear.toLocaleString()}
-                    <span className="text-slate-500 text-xl ml-2 font-medium">Work Days</span>
+                    {extraDealsPerYear.toLocaleString()}
+                    <span className="text-slate-500 text-xl ml-2 font-medium">Deals</span>
                   </div>
                 </div>
 
                 <div className="p-4 rounded-xl bg-sky-500/5 border border-sky-500/10 text-sky-200/80 text-sm leading-relaxed italic">
-                  "Based on conservative estimates of 70% automation efficiency for manual prospecting and lead qualification tasks."
+                  "Based on conservative estimates of increased conversion rates when leads are responded to in under 90 seconds."
                 </div>
               </div>
             </div>
