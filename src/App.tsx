@@ -196,7 +196,7 @@ function DiagnosticForm() {
   ];
 
   const handleSubmit = () => {
-    window.location.href = "https://calendly.com/your-booking-link";
+    window.open("https://calendly.com/neda_taleloidi/30min", "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -311,9 +311,9 @@ function ExitIntentModal({ onClose }: { onClose: () => void }) {
           <span className="text-white font-medium ml-1">5 Red Flags of Manual Friction</span> and see where you're losing time.
         </p>
         <div className="flex flex-col gap-3">
-          <button className="cta-button w-full !bg-emerald-500 hover:!bg-emerald-400">
+          <a href="https://calendly.com/neda_taleloidi/30min" target="_blank" rel="noopener noreferrer" className="cta-button w-full !bg-emerald-500 hover:!bg-emerald-400 text-center flex justify-center">
             Send Me the Guide
-          </button>
+          </a>
           <button 
             onClick={onClose}
             className="text-sm text-slate-500 hover:text-slate-300 transition-colors py-2"
@@ -441,7 +441,7 @@ function StickyHeader({ show }: { show: boolean }) {
           <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <span>AI Systems</span>
         </div>
-        <a href="#audit" className="text-xs font-bold text-sky-400 hover:text-white transition-colors flex items-center gap-1 group">
+        <a href="https://calendly.com/neda_taleloidi/30min" target="_blank" rel="noopener noreferrer" className="text-xs font-bold text-sky-400 hover:text-white transition-colors flex items-center gap-1 group">
           Request Audit
           <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
         </a>
@@ -461,11 +461,11 @@ function Nav() {
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">Automate AI</span>
         </a>
         <div className="flex items-center gap-8">
-          <a href="#audit" className="hidden sm:block text-sm font-medium text-slate-400 hover:text-sky-400 transition-colors relative group">
+          <a href="https://calendly.com/neda_taleloidi/30min" target="_blank" rel="noopener noreferrer" className="hidden sm:block text-sm font-medium text-slate-400 hover:text-sky-400 transition-colors relative group">
             Free Automation Audit
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-sky-400 transition-all group-hover:w-full" />
           </a>
-          <a href="#audit" className="cta-button !py-2 !px-4 !text-xs sm:!py-2.5 sm:!px-5 sm:!text-sm">
+          <a href="https://calendly.com/neda_taleloidi/30min" target="_blank" rel="noopener noreferrer" className="cta-button !py-2 !px-4 !text-xs sm:!py-2.5 sm:!px-5 sm:!text-sm">
             Get Started
           </a>
         </div>
@@ -594,7 +594,7 @@ function Hero() {
           <div className="animate-fade-in-up animate-delay-300 relative inline-block">
             {/* Pulsing ring background */}
             <div className="absolute inset-0 bg-sky-500/20 rounded-lg blur-xl animate-pulse-ring scale-150" />
-            <a href="#audit" className="cta-button text-lg gap-2.5 relative z-10">
+            <a href="https://calendly.com/neda_taleloidi/30min" target="_blank" rel="noopener noreferrer" className="cta-button text-lg gap-2.5 relative z-10">
               Book Your Free Audit Call
               <ArrowRight className="w-5 h-5" />
             </a>
