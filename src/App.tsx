@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { Analytics } from "@vercel/analytics/react";
 import { 
   Zap, Search, BarChart3, ArrowRight, CheckCircle2, 
   MessageSquare, Lightbulb, Users, Clock,
@@ -67,6 +68,7 @@ function App() {
       <div className="gradient-divider" />
       <DiagnosticForm />
       <Footer />
+      <Analytics />
     </div>
   );
 }
